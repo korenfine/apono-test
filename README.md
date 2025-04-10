@@ -112,7 +112,7 @@ Runs on `http://localhost:3000`
 Make sure to configure MongoDB in your `.env` (or environment) setup:
 
 ```
-MONGO_URI=mongodb://localhost:27017/access-control
+MONGO_URI=mongodb://localhost:27017/apono
 ```
 
 ---
@@ -123,12 +123,6 @@ MONGO_URI=mongodb://localhost:27017/access-control
 - **Backend**: NestJS, Mongoose
 - **Database**: MongoDB
 - **Tooling**: NX, TypeScript, Zod (for server-side validation)
-
----
-
-## 🧪 Testing
-
-> You can optionally add testing instructions here
 
 ---
 

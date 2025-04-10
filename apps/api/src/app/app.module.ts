@@ -9,11 +9,24 @@ import { AppGeneralController } from './modules/general/general.controller';
 import { AppAuthService } from './modules/auth/auth.service';
 import { AuthModule } from '@apono/auth';
 import { GeneralModule } from '@apono/general';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 
 @Module({
   imports: [
-    MongooseModule.forRoot('mongodb://localhost:27017/apono'),
-    AuthModule,
+    // Import ConfigModule and load .env file
+    ConfigModule.forRoot({
+      isGlobal: true, // Make the configuration globally available
+      envFilePath: '.env', // Load the .env file (if you have one)
+    }),
+
+    // Use ConfigService to get the MongoDB URI from .env
+    MongooseModule.forRootAsync({
+      imports: [ConfigModule],
+      useFactory: async (configService: ConfigService) => ({
+        uri: configService.get<string>('MONGO_URI') ?? "mongodb://localhost:27017/apono", // Get the MONGO_URI from the .env file
+      }),
+      inject: [ConfigService],
+    }),    AuthModule,
     GeneralModule
   ],
   controllers: [AppController, AppAuthController, AppGeneralController],

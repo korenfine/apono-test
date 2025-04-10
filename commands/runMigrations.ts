@@ -2,8 +2,11 @@ import mongoose, { Connection } from 'mongoose';
 import * as fs from 'fs';
 import * as path from 'path';
 
+import * as dotenv from 'dotenv';
+dotenv.config(); // Load environment variables from .env
+
 const runMigrations = async () => {
-  const mongoUri = 'mongodb://localhost:27017/apono'; // Update if needed
+  const mongoUri = process.env.MONGO_URI || 'mongodb://localhost:27017/apono'; // Use fallback if MONGO_URI is not set
 
   // Establish connection using mongoose.connect (returns a Mongoose instance)
   await mongoose.connect(mongoUri);
