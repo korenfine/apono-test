@@ -1,0 +1,26 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "outDir": "../../dist/out-tsc",
+    "declaration": true,
+    "types": ["node"],
+    "target": "es2021",
+    "strictNullChecks": true,
+    "noImplicitAny": true,
+    "strictBindCallApply": true,
+    "forceConsistentCasingInFileNames": true,
+    "noFallthroughCasesInSwitch": true,
+    "rootDir": "../../"  // Ensure the rootDir includes both models and libs
+  },
+  "include": [
+    "src/**/*.ts",  // Include all files from the src directory of this library
+    "../../libs/dto/src/**/*.ts",  // Ensure this path is included for dto files
+    "../../models/*.model.ts"  // Ensure this path is included for model files
+  ],
+  "exclude": ["jest.config.ts", "src/**/*.spec.ts", "src/**/*.test.ts"],
+  "references": [
+    {
+      "path": "../dto/tsconfig.lib.json"
+    }
+  ]
+}
