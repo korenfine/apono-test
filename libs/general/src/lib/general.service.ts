@@ -34,7 +34,7 @@ export class GeneralService {
   }
 
   async getAccessLogs(): Promise<AccessLogDto[]> {
-    const data = await this.accessLogModel.find().lean();
+    const data = await this.accessLogModel.find().sort({ _id: -1 }).lean();
     return data.map(accessLog => ({
       citizen: accessLog.citizen,
       role: accessLog.role,
