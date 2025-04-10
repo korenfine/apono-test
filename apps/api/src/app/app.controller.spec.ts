@@ -13,10 +13,10 @@ describe('AppController', () => {
     }).compile();
   });
 
-  describe('getData', () => {
-    it('should return "Hello API"', () => {
+  describe('health', () => {
+    it('should return "healthy"', () => {
       const appController = app.get<AppController>(AppController);
-      expect(appController.getData()).toEqual({ message: 'Hello API' });
+      expect(appController.health()).toEqual({ message: 'healthy' });
     });
   });
 });
