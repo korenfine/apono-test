@@ -1,109 +1,137 @@
-# Apono
+# 🛡️ Citizen Access Control System
 
-<a alt="Nx logo" href="https://nx.dev" target="_blank" rel="noreferrer"><img src="https://raw.githubusercontent.com/nrwl/nx/master/images/nx-logo.png" width="45"></a>
+A full-stack web application built with **React** (frontend), **NestJS** (backend), and **MongoDB** (database). This system allows validating access permissions between citizens and places based on hierarchical roles and logs all access attempts.
 
-✨ Your new, shiny [Nx workspace](https://nx.dev) is ready ✨.
+---
 
-[Learn more about this workspace setup and its capabilities](https://nx.dev/nx-api/js?utm_source=nx_project&amp;utm_medium=readme&amp;utm_campaign=nx_projects) or run `npx nx graph` to visually explore what was created. Now, let's get you up to speed!
+## 🚀 Features
 
-## Generate a library
+- 🎛️ **Form Interface**: Select citizens and places from dropdowns, and check if access is allowed.
+- ✅ **Validation Feedback**: Receive instant success or failure messages after submitting the form.
+- 📄 **Access Logs**: View a detailed table of all access attempts including citizen, role, place, result, and timestamp.
+- 🏗️ **Role Hierarchy Logic**: Access is validated through direct and sub-role matches.
+- 📦 **MongoDB Integration**: All data is stored and retrieved via MongoDB.
 
-```sh
-npx nx g @nx/js:lib packages/pkg1 --publishable --importPath=@my-org/pkg1
-```
+---
 
-## Run tasks
+## 📂 Project Structure
 
-To build the library use:
-
-```sh
-npx nx build pkg1
-```
-
-To run any task with Nx use:
-
-```sh
-npx nx <target> <project-name>
-```
-
-These targets are either [inferred automatically](https://nx.dev/concepts/inferred-tasks?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) or defined in the `project.json` or `package.json` files.
-
-[More about running tasks in the docs &raquo;](https://nx.dev/features/run-tasks?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-
-## Versioning and releasing
-
-To version and release the library use
+This is an **NX Monorepo** with the following structure:
 
 ```
-npx nx release
+apps/
+  client/      -> React frontend
+  server/      -> NestJS backend
+commands/      -> JS command Script 
+libs/
+  dto/         -> Shared TypeScript types (used by both client and server)
+migrations/     
+models/        
 ```
 
-Pass `--dry-run` to see what would happen without actually releasing the library.
+---
 
-[Learn more about Nx release &raquo;](hhttps://nx.dev/features/manage-releases?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+## ⚙️ Setup Instructions
 
-## Keep TypeScript project references up to date
+### 1. 📥 Install Dependencies
 
-Nx automatically updates TypeScript [project references](https://www.typescriptlang.org/docs/handbook/project-references.html) in `tsconfig.json` files to ensure they remain accurate based on your project dependencies (`import` or `require` statements). This sync is automatically done when running tasks such as `build` or `typecheck`, which require updated references to function correctly.
-
-To manually trigger the process to sync the project graph dependencies information to the TypeScript project references, run the following command:
-
-```sh
-npx nx sync
+```bash
+npm install
 ```
 
-You can enforce that the TypeScript project references are always in the correct state when running in CI by adding a step to your CI job configuration that runs the following command:
+---
 
-```sh
-npx nx sync:check
+### 2. 🧩 Run Data Migration
+
+This loads initial data like citizens, roles, and places into the database.
+
+```bash
+npm run migration
 ```
 
-[Learn more about nx sync](https://nx.dev/reference/nx-commands#sync)
+---
 
-## Set up CI!
+### 3. 💻 Start the Client (React)
 
-### Step 1
-
-To connect to Nx Cloud, run the following command:
-
-```sh
-npx nx connect
+```bash
+npm run client
 ```
 
-Connecting to Nx Cloud ensures a [fast and scalable CI](https://nx.dev/ci/intro/why-nx-cloud?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) pipeline. It includes features such as:
+Runs on `http://localhost:4200`
 
-- [Remote caching](https://nx.dev/ci/features/remote-cache?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-- [Task distribution across multiple machines](https://nx.dev/ci/features/distribute-task-execution?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-- [Automated e2e test splitting](https://nx.dev/ci/features/split-e2e-tasks?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-- [Task flakiness detection and rerunning](https://nx.dev/ci/features/flaky-tasks?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+---
 
-### Step 2
+### 4. 🧠 Start the Server (NestJS)
 
-Use the following command to configure a CI workflow for your workspace:
-
-```sh
-npx nx g ci-workflow
+```bash
+npm run server
 ```
 
-[Learn more about Nx on CI](https://nx.dev/ci/intro/ci-with-nx#ready-get-started-with-your-provider?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+Runs on `http://localhost:3000`
 
-## Install Nx Console
+---
 
-Nx Console is an editor extension that enriches your developer experience. It lets you run tasks, generate code, and improves code autocompletion in your IDE. It is available for VSCode and IntelliJ.
+## 🧠 Technical Overview
 
-[Install Nx Console &raquo;](https://nx.dev/getting-started/editor-setup?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+### 📁 Data Models
 
-## Useful links
+- **Citizen**
+  - `name`: string
+  - `roles`: Role[]
+- **Role**
+  - `name`: string
+  - `subRoles`: string[]
+- **Place**
+  - `name`: string
+  - `rolesAllowed`: Role[]
+- **AccessLog**
+  - `citizen`: string
+  - `role`: string
+  - `place`: string
+  - `result`: 'allowed' | 'denied'
+  - `timestamp`: Date
 
-Learn more:
+---
 
-- [Learn more about this workspace setup](https://nx.dev/nx-api/js?utm_source=nx_project&amp;utm_medium=readme&amp;utm_campaign=nx_projects)
-- [Learn about Nx on CI](https://nx.dev/ci/intro/ci-with-nx?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-- [Releasing Packages with Nx release](https://nx.dev/features/manage-releases?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-- [What are Nx plugins?](https://nx.dev/concepts/nx-plugins?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+### 🔄 Flow
 
-And join the Nx community:
-- [Discord](https://go.nx.dev/community)
-- [Follow us on X](https://twitter.com/nxdevtools) or [LinkedIn](https://www.linkedin.com/company/nrwl)
-- [Our Youtube channel](https://www.youtube.com/@nxdevtools)
-- [Our blog](https://nx.dev/blog?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+1. **Form Submission**:
+   - User selects a citizen and place.
+   - App sends request to backend to validate access.
+   - Backend checks if any of the citizen's roles (or subRoles) match the place's `rolesAllowed`.
+
+2. **Validation Result**:
+   - Access is either approved or denied.
+   - Result is shown to the user.
+   - Log entry is recorded in the database.
+
+---
+
+## 📦 Environment Variables
+
+Make sure to configure MongoDB in your `.env` (or environment) setup:
+
+```
+MONGO_URI=mongodb://localhost:27017/access-control
+```
+
+---
+
+## 🛠️ Tools & Libraries
+
+- **Frontend**: React, MUI, Axios
+- **Backend**: NestJS, Mongoose
+- **Database**: MongoDB
+- **Tooling**: NX, TypeScript, Zod (for server-side validation)
+
+---
+
+## 🧪 Testing
+
+> You can optionally add testing instructions here
+
+---
+
+## 🧠 Author
+
+Made with 💻 by Naor Kraif

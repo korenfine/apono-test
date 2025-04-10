@@ -27,7 +27,6 @@ export function AccessForm() {
   const [alertSeverity, setAlertSeverity] = useState<AlertColor>('success');
 
   const handleCitizenChange = useCallback((e: SelectChangeEvent) => {
-    debugger
     setCitizen(e.target.value);
   }, []);
 
